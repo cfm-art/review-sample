@@ -71,6 +71,7 @@ app.MapPut("/api/todos/{id}", async (int id, TodoItem updatedTodo, TodoContext d
     
     todo.Title = updatedTodo.Title;
     todo.Description = updatedTodo.Description;
+    todo.Tags = updatedTodo.Tags;
     todo.IsCompleted = updatedTodo.IsCompleted;
     
     if (updatedTodo.IsCompleted && !wasCompleted)
