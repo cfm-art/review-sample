@@ -44,6 +44,11 @@ app.MapGet("/api/todos/{id}", async (int id, TodoContext db) =>
 // POST /api/todos - Create a new todo
 app.MapPost("/api/todos", async (TodoItem todo, TodoContext db) =>
 {
+    if (string.IsNullOrWhiteSpace(todo.Title))
+    {
+        return Results.BadRequest(new { error = "Title is required" });
+    }
+    
     todo.CreatedAt = DateTime.UtcNow;
     db.TodoItems.Add(todo);
     await db.SaveChangesAsync();
@@ -54,6 +59,11 @@ app.MapPost("/api/todos", async (TodoItem todo, TodoContext db) =>
 // PUT /api/todos/{id} - Update a todo
 app.MapPut("/api/todos/{id}", async (int id, TodoItem updatedTodo, TodoContext db) =>
 {
+    if (string.IsNullOrWhiteSpace(updatedTodo.Title))
+    {
+        return Results.BadRequest(new { error = "Title is required" });
+    }
+    
     var todo = await db.TodoItems.FindAsync(id);
     if (todo is null) return Results.NotFound();
 
